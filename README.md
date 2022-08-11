@@ -6,12 +6,14 @@
 - Rubocop
 - Postgresql
 
+
 ## Getting Started
 Install the following :
 - Ruby
 - Ruby on Rails  
 - PostgreSQL
 - rubocop
+
 
 ### Setup
  - git clone https://github.com/mbdesigns1989/Blog-app
@@ -24,6 +26,7 @@ Run:
     ```rails s``` To run it on the server
 
 Open [http://localhost:3000/](http://localhost:3000/) in your browser.
+
 
 ### Tests
 Run: 

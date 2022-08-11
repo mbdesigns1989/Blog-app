@@ -1,18 +1,17 @@
 AllCops:
   NewCops: enable
   Exclude:
-    - "bin/bundle"
     - "db/**/*"
     - "bin/*" 
     - "config/**/*"
     - "Guardfile"
     - "Rakefile"
     - "node_modules/**/*"
-
+    - "spec"
   DisplayCopNames: true
 
 Layout/LineLength:
-  Max: 200
+  Max: 120
 Metrics/MethodLength:
   Include:
     - "app/controllers/*"
@@ -29,6 +28,8 @@ Metrics/BlockLength:
   IgnoredMethods: ['describe']
   Max: 30
 
+Style/Documentation:
+  Enabled: false
 Style/ClassAndModuleChildren:
   Enabled: false
 Style/EachForSimpleLoop:
@@ -57,3 +58,5 @@ Style/HashTransformKeys:
   Enabled: false
 Style/HashTransformValues:
   Enabled: false
+Layout/EndOfLine:
+  EnforcedStyle: lf

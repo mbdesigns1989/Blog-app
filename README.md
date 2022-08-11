@@ -12,6 +12,7 @@ Install the following :
 - Ruby
 - Ruby on Rails  
 - PostgreSQL
+- rubocop
 
 
 ### Setup
@@ -25,6 +26,7 @@ Run:
     ```rails s``` To run it on the server
 
 Open [http://localhost:3000/](http://localhost:3000/) in your browser.
+
 
 ### Tests
 Run: 

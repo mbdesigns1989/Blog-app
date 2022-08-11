@@ -7,12 +7,12 @@ default: &default
 
 development:
   <<: *default
-  database: blog_app
+  database: blog_dev
 
 development:
   adapter: postgresql
   encoding: unicode
-  database: blog_app
+  database: blog_dev
   pool: 5
   host: localhost
   username: postgres

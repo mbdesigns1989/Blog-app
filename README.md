@@ -9,7 +9,7 @@
 ## Getting Started
 Install the following :
 - Ruby
-- Ruby on Rails V 
+- Ruby on Rails  
 - PostgreSQL
 
 ### Setup

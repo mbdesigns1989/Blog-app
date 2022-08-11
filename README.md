@@ -6,11 +6,13 @@
 - Rubocop
 - Postgresql
 
+
 ## Getting Started
 Install the following :
 - Ruby
 - Ruby on Rails  
 - PostgreSQL
+
 
 ### Setup
  - git clone https://github.com/mbdesigns1989/Blog-app

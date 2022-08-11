@@ -11,6 +11,7 @@ Install the following :
 - Ruby
 - Ruby on Rails  
 - PostgreSQL
+- rubocop
 
 ### Setup
  - git clone https://github.com/mbdesigns1989/Blog-app

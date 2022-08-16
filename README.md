@@ -14,7 +14,6 @@ Install the following :
 - PostgreSQL
 - rubocop
 
-
 ### Setup
  - git clone https://github.com/mbdesigns1989/Blog-app
  - cd Blog-app

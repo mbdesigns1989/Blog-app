@@ -1,12 +1,12 @@
 class User < ApplicationRecord
-  validates :name, presence: true, allow_blank: false
+  has_many :posts, class_name: "Post", foreign_key: "author_id"
+  has_many :likes, class_name: "Like", foreign_key: "author_id"
+  has_many :comments, class_name: "Comment", foreign_key: "author_id"
+
+  validates :name, presence: true
   validates :posts_counter, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 
-  has_many :posts, foreign_key: 'author_id'
-  has_many :comments, foreign_key: 'author_id'
-  has_many :likes, class_name: 'like', foreign_key: 'author_id'
-
   def recent_posts
-    posts.order(created_at: :desc).limit(3)
+    posts.last(3)
   end
 end

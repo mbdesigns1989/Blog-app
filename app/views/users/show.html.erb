@@ -1,1 +1,12 @@
-<h1>You are in users/show</h1>
+  <header class="user_title">User's data</header>
+  <%=render "shared/user_info" , user: @user%>
+  <div class="bio">
+    <p>Bio</p>
+    <p><%= @user.bio%></p>
+  </div>
+  <% @user_posts.each_with_index do |post,index|%>
+    <%= render "shared/post_info", post: post, index: index%>
+  <% end %>
+  <div class="all_posts">
+    <button>See all posts</button>
+  </div>

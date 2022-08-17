@@ -1,35 +1,37 @@
 require 'rails_helper'
 
-RSpec.describe 'Posts', type: :request do
-  describe 'GET #index' do
-    before(:example) { get user_posts_path(1) } # get(:index)
-
-    it 'is a success' do
-      expect(response).to have_http_status(:ok)
+RSpec.describe 'testing posts_controller', type: :request do
+  context ' testing posts#index' do
+    it 'return a http status 200' do
+      get '/users/1/posts'
+      expect(response).to have_http_status(200)
     end
 
-    it "renders 'index' template" do
+    it 'should render index view' do
+      get '/users/1/posts'
       expect(response).to render_template('index')
     end
 
-    it 'response body includes correct placeholder text' do
-      expect(response.body.include?('You are in posts/index')).to be_truthy
+    it 'render should have a posts_container class' do
+      get '/users/1/posts'
+      expect(response.body).to include('post_title')
     end
   end
 
-  describe 'GET #show' do
-    before(:example) { get user_post_path(1, 2) } # get(:show)
-
-    it 'is a success' do
-      expect(response).to have_http_status(:ok)
+  context 'testing posts#show' do
+    it 'return a http status 200' do
+      get '/users/1/posts/1'
+      expect(response).to have_http_status(200)
     end
 
-    it "renders 'show' template" do
+    it 'should render index view' do
+      get '/users/1/posts/1'
       expect(response).to render_template('show')
     end
 
-    it 'response body includes correct placeholder text' do
-      expect(response.body.include?('You are in posts/show')).to be_truthy
+    it 'render should have a posts_container class' do
+      get '/users/1/posts/1'
+      expect(response.body).to include('post_title')
     end
   end
 end

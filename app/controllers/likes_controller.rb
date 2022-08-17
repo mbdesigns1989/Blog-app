@@ -11,7 +11,7 @@ class LikesController < ApplicationController
 
     respond_to do |format|
       if @like.save
-        format.html { redirect_to user_post_url(current_user, @post), notice: "Like was successfully created." }
+        format.html { redirect_to user_post_url(current_user, @post), notice: 'Like was successfully created.' }
       else
         format.html { render :new, status: :unprocessable_entity }
       end

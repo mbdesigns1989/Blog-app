@@ -17,7 +17,7 @@ class CommentsController < ApplicationController
     respond_to do |format|
       if @comment.save!
         format.html do
-          redirect_to user_post_url(current_user, @post), notice: "Comment was successfully created."
+          redirect_to user_post_url(current_user, @post), notice: 'Comment was successfully created.'
         end
       else
         format.html { render :new, status: :unprocessable_entity }

@@ -1,6 +1,11 @@
-<% stylesheet_link_tag 'posts/show' %>
-
-<div id="post-page" class="content">
-  <%= render 'posts/expanded_post_tile', post: @post %>
-  <%= render 'posts/comments_tile', comments: @post.comments %>
-</div>
+  <p class="post_title">Post info</p>
+  <div class="post_full_info">
+    <p>Post #<%=params[:id]%> by <%=@user.name%></p>
+    <p class=comments_likes_number>Comments: <%=@post.comments_counter%>, Likes: <%=@post.likes_counter%></p>
+    <p><%=@post.text%></p>
+  </div>
+  <div class="comments_container">
+    <% (@comments.filter{|e| e.post_id==@post.id}).each do |comment|%>
+    <p class="comment"><%=(User.find(comment.author_id)).name%>:  <%=comment.text%></p>
+  <%end%>
+  </div>

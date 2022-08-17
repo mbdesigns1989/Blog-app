@@ -1,11 +1,4 @@
-<% stylesheet_link_tag 'users/index' %>
-
-<div id="users-list-page" class="content">
-  <ul>
-    <% @users.each do |user| %>
-      <li>
-        <%= render 'users/user_tile', user: user %>
-      </li>
-    <% end %>
-  </ul>
-</div>
+  <header class="user_title">List of users</header>
+  <% @users.each do |user|%>
+  <%=render "shared/user_info", user:user%>
+  <% end %>

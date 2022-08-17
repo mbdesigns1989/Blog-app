@@ -1,12 +1,10 @@
 class Comment < ApplicationRecord
-  validates :Text, presence: true
-  belongs_to :post
-  belongs_to :user
-  after_save :update_comment_counter
+  belongs_to :author, class_name: 'User'
+  belongs_to :post, class_name: 'Post'
 
-  private
+  after_save :update_comments_counter
 
-  def update_comment_counter
-    post.increment!(:commentscounter)
+  def update_comments_counter
+    post.increment!(:comments_counter)
   end
 end

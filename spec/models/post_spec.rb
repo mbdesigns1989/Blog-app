@@ -1,69 +1,61 @@
 require 'rails_helper'
 
 RSpec.describe Post, type: :model do
-  User.create(name: 'Tom', photo: 'https://unsp', bio: 'Teacher from Mexico.', posts_counter: 0)
-  subject { Post.create(author: User.first, title: 'Hello', text: 'Post', comments_counter: 0, likes_counter: 0) }
-
-  before { subject.save }
-
-  context 'Testing Post [title] Validations' do
-    it 'Title should be valid if it is Hello' do
-      expect(subject).to be_valid
-    end
-
-    it 'Title should not be blank' do
-      subject.title = nil
-      expect(subject).to_not be_valid
-    end
-
-    it "Title should not be '' " do
-      subject.title = ''
-      expect(subject).to_not be_valid
-    end
-
-    it 'Title should not be larger than 250 characters' do
-      subject.title = 'a' * 251
-      expect(subject).to_not be_valid
-    end
+  before do
+    @author = User.new(name: 'Ronald', photo: 'https://unsplash.com/photos/F_-0BxGuVvo', bio: 'Full Stack Dev.',
+                       postscount: 0)
+    @author.save
+    @post = Post.new(author: @author, title: 'Post Title', text: 'Post Text', commentscounter: 0, likescounter: 0)
+    @post.save
   end
 
-  context 'Testing Post [Comments, Likes] Validations' do
-    it 'Comments Counter should be a number >= 0' do
-      expect(subject).to be_valid
-    end
+  it 'should have an author' do
+    expect(@post.author).to eq(@author)
+  end
 
-    it 'Comments Counter should not be a number < 0' do
-      subject.comments_counter = -1
-      expect(subject).to_not be_valid
-    end
+  it 'should have a title' do
+    expect(@post.title).to eq('Post Title')
+  end
 
-    it 'Comments should not be a nil' do
-      subject.comments_counter = nil
-      expect(subject).to_not be_valid
-    end
+  it 'should have a text' do
+    expect(@post.text).to eq('Post Text')
+  end
 
-    it 'Comments should be a number' do
-      subject.comments_counter = 'a'
-      expect(subject).to_not be_valid
-    end
+  it 'should not be valid without a title' do
+    @post.title = nil
+    expect(@post).to_not be_valid
+  end
 
-    it 'Likes Counter should be a number >= 0' do
-      expect(subject).to be_valid
-    end
+  it 'should not be valid with a title length greater than 250' do
+    @post.title = 'x' * 251
+    expect(@post).to_not be_valid
+  end
 
-    it 'Likes Counter should not be a number < 0' do
-      subject.likes_counter = -1
-      expect(subject).to_not be_valid
-    end
+  it 'should not be valid without a comments counter greater or equal to 0' do
+    @post.commentscounter = -1
+    expect(@post).to_not be_valid
+  end
 
-    it 'Likes Counter should not be a nil' do
-      subject.likes_counter = nil
-      expect(subject).to_not be_valid
-    end
+  it 'should not be valid without a likes counter greater or equal to 0' do
+    @post.likescounter = -1
+    expect(@post).to_not be_valid
+  end
 
-    it 'Likes should be a number' do
-      subject.likes_counter = 'a'
-      expect(subject).to_not be_valid
-    end
+  it 'should have a most_recent_comments method that returns the 5 most recent comments' do
+    comment1 = Comment.new(author: @author, text: 'Comment Text 1', post: @post)
+    comment1.save
+    comment2 = Comment.new(author: @author, text: 'Comment Text 2', post: @post)
+    comment2.save
+    comment3 = Comment.new(author: @author, text: 'Comment Text 3', post: @post)
+    comment3.save
+    comment4 = Comment.new(author: @author, text: 'Comment Text 4', post: @post)
+    comment4.save
+    comment5 = Comment.new(author: @author, text: 'Comment Text 5', post: @post)
+    comment5.save
+    comment6 = Comment.new(author: @author, text: 'Comment Text 6', post: @post)
+    comment6.save
+    comment7 = Comment.new(author: @author, text: 'Comment Text 7', post: @post)
+    comment7.save
+    expect(@post.most_recent_comments).to eq([comment7, comment6, comment5, comment4, comment3])
   end
 end

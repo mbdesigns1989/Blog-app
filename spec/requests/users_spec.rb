@@ -1,37 +1,37 @@
 require 'rails_helper'
 
-RSpec.describe 'testing users_controller', type: :request do
-  context ' testing users#index' do
-    it 'return a http status 200' do
+RSpec.describe 'Users routes', type: :request do
+  context 'GET /users' do
+    it 'returns a 200 response' do
       get '/users'
       expect(response).to have_http_status(200)
     end
 
-    it 'should render index view' do
+    it 'renders the index view' do
       get '/users'
-      expect(response).to render_template('index')
+      expect(response).to render_template(:index)
     end
 
-    it 'render should have a users_container class' do
+    it 'renders a html containing a <h1>Here is a list of users.</h1> tag' do
       get '/users'
-      expect(response.body).to include('user_title')
+      expect(response.body).to include('<h1>Here is a list of users.</h1>')
     end
   end
 
-  context 'testing users#show' do
-    it 'return a http status 200' do
+  context 'GET /users/:id' do
+    it 'returns a 200 response' do
       get '/users/1'
       expect(response).to have_http_status(200)
     end
 
-    it 'should render index view' do
+    it 'renders the show view' do
       get '/users/1'
-      expect(response).to render_template('show')
+      expect(response).to render_template(:show)
     end
 
-    it 'render should have a users_container class' do
+    it 'renders a html containing a <h1>Here are details of a given user</h1> tag' do
       get '/users/1'
-      expect(response.body).to include('user_title')
+      expect(response.body).to include('<h1>Here are details of a given user</h1>')
     end
   end
 end

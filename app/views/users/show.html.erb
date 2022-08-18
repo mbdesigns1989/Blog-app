@@ -1,0 +1,26 @@
+<div class="flex my-3 rounded-md border border-zinc-300 bg-white">
+  <img src="<%= @user.photo %>" class="w-1/5 rounded-l-md"/>
+  <div class="w-4/5 px-2 pt-4 flex flex-col">
+    <h2 class="text-2xl font-bold text-sky-600"><%= link_to @user.name, @user %></h2>
+    <p class="text-sm text-right w-full font-bold text-emerald-500/60">Number of Posts:
+      <%= @user.postscount %></p>
+  </div>
+</div>
+<div class="rounded-md border border-zinc-300 p-2 bg-white">
+  <h3 class="font-semibold text-cyan-700">Bio</h3>
+  <p class="text-sm text-cyan-900/80"><%= @user.bio %></p>
+</div>
+<h2 class="font-bold text-cyan-700 mx-2 my-6 text-lg">
+  Most recent posts by <%= @user.name %>:
+</h2>
+<% @user.most_recent_posts.each do |post| %>
+  <div class="rounded-md border border-zinc-300 p-2 mb-4 bg-white/60">
+    <h2 class="font-semibold text-md text-cyan-900/80 underline underline-offset-2"><%= link_to post.title, [@user, post] %></h2>
+    <p class="text-cyan-900/80 text-sm truncate my-2"><%= post.text %></p>
+    <p class="text-right text-sm font-bold text-emerald-500/60">Comments:
+      <%= post.commentscounter || 0 %>
+      Likes:
+      <%= post.likescounter || 0 %></p>
+  </div>
+<% end %>
+<%= link_to 'See all posts', user_posts_path(@user), class: "border border-zinc-300 p-2 bg-cyan-700 text-zinc-100 font-bold rounded-md" %>

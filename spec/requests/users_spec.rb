@@ -1,35 +1,33 @@
 require 'rails_helper'
 
-RSpec.describe 'Users', type: :request do
-  it 'redirects to the Users page and checks the correct placeholder text and status' do
-    get '/users'
+RSpec.describe 'UsersController', type: :request do
+  let(:user) { create(:user, name: 'Mb') }
 
-    expect(response).to render_template(:index)
+  describe 'GET /users' do
+    before do
+      get users_path
+    end
 
-    expect(response.body).to include('Here is a list of users')
+    it 'should return an HTTP status 200 (ok)' do
+      expect(response).to have_http_status(:ok)
+    end
 
-    expect(response).to have_http_status(200)
+    it 'should render the index template' do
+      expect(response).to render_template(:index)
+    end
   end
 
-  it 'does not render a different template' do
-    get '/users'
+  describe 'GET /users/:id' do
+    before do
+      get user_path(id: user.id)
+    end
 
-    expect(response).to_not render_template(:show)
-  end
+    it 'should return an HTTP status 200 (ok)' do
+      expect(response).to have_http_status(:ok)
+    end
 
-  it 'redirects to the User page and checks the correct placeholder text and status' do
-    get '/users/1'
-
-    expect(response).to render_template(:show)
-
-    expect(response.body).to include('Here is a user')
-
-    expect(response).to have_http_status(200)
-  end
-
-  it 'does not render a different template' do
-    get '/users/1'
-
-    expect(response).to_not render_template(:index)
+    it 'should render the show template' do
+      expect(response.body).to render_template(:show)
+    end
   end
 end

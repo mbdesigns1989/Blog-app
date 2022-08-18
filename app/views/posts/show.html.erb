@@ -1,48 +1,15 @@
-<div class="card m-3" style="max-width: 540px;">
-
-    <div>Post # 
-     <%= @post.id %>
-     by <%= @post.author.name %>
-     <%= @post.text %></div>
-    Comments: <% if @post.comments_counter != nil %>
-    <%= @post.comments_counter %>
- <% else %>
- 0 
- <% end %>
-    Likes: <% if @post.likes_counter != nil %>
-     <%= @post.likes_counter %>
-  <% else %>
-  0 
-  <% end %>
+<section class="post">
+  <div class="post__content">
+    <h3 class="post__title"><%= "#{@post.title} by #{@post.author.name}" %></h3>
+    <span class="post__counters"><%= "Comments: #{@post.commentscounter} Likes: #{@post.likescounter}"%></span>
+    <p class="post__text">
+      <%= @post.text %>
+    </p>
   </div>
-  </div>
-  <div class="card m-3" style="max-width: 540px;">
-
-  <div> <% @post.comments.each do |comment| %> 
-    <%= comment.author.name %> : <%= comment.text %>
+  <ul class="post__comments">
+    <% @post.comments.each do |comment| %>
+      <%= render "shared/comment_card", author: @post.author, comment: comment %>
     <% end %>
-    </div>
-    </div>
+  </ul>
 
-    <%= form_with url: "/posts/#{@post.id}/comments", scope: :comment, class: "col-3 shadow p-3 mb-3 mx-3 bg-info rounded", local: true do |f| %>
-      <div class="form-group row mt-3">
-        <%= f.label 'Write a comment', class: "col-form-label text-light" %>
-        <div class=""> 
-          <%= f.text_area :text, rows: 5, class: "form-control shadow rounded", placeholder: "Enter your text here" %>
-        </div>
-      </div>
-      <div class="form-group row justify-content-center">
-        <%= f.submit 'Comment', class: "btn btn-outline-light mt-3" %>
-      </div>
-    <% end %>
-
-    <%= form_with url: "/posts/#{@post.id}/likes", scope: :like, class: "col-3 shadow p-1 mb-3 mx-3 bg-info rounded", local: true do |f| %>
-      <div class="form-group row justify-content-center">
-        <%= f.submit 'Like', class: "btn btn-outline-light" %>
-      </div>
-    <% end %>
-
-<%= link_to 'Create new post', new_user_post_path, class: "btn btn-secondary mx-3 mb-3" %>
-
-<%= link_to 'See all posts', user_posts_path(@user), class: "btn btn-secondary mx-3 mb-3" %>
-
+</section>

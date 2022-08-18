@@ -1,37 +1,35 @@
 require 'rails_helper'
 
-RSpec.describe 'testing users_controller', type: :request do
-  context ' testing users#index' do
-    it 'return a http status 200' do
-      get '/users'
-      expect(response).to have_http_status(200)
-    end
+RSpec.describe 'Users', type: :request do
+  it 'redirects to the Users page and checks the correct placeholder text and status' do
+    get '/users'
 
-    it 'should render index view' do
-      get '/users'
-      expect(response).to render_template('index')
-    end
+    expect(response).to render_template(:index)
 
-    it 'render should have a users_container class' do
-      get '/users'
-      expect(response.body).to include('user_title')
-    end
+    expect(response.body).to include('Here is a list of users')
+
+    expect(response).to have_http_status(200)
   end
 
-  context 'testing users#show' do
-    it 'return a http status 200' do
-      get '/users/1'
-      expect(response).to have_http_status(200)
-    end
+  it 'does not render a different template' do
+    get '/users'
 
-    it 'should render index view' do
-      get '/users/1'
-      expect(response).to render_template('show')
-    end
+    expect(response).to_not render_template(:show)
+  end
 
-    it 'render should have a users_container class' do
-      get '/users/1'
-      expect(response.body).to include('user_title')
-    end
+  it 'redirects to the User page and checks the correct placeholder text and status' do
+    get '/users/1'
+
+    expect(response).to render_template(:show)
+
+    expect(response.body).to include('Here is a user')
+
+    expect(response).to have_http_status(200)
+  end
+
+  it 'does not render a different template' do
+    get '/users/1'
+
+    expect(response).to_not render_template(:index)
   end
 end

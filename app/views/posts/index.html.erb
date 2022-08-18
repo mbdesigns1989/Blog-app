@@ -1,15 +1,44 @@
-  <p class="post_title">User's posts</p>
-  <%= render "shared/user_info", user: @user %>   
-  <% @user_posts.each_with_index do |post,index|%>
-    <div>
-       <%= render "shared/post_info", post: post, index: index%>
+  <div class="card mb-3" style="max-width: 540px;">
+    <div class="row g-0">
+      <div class="col-md-4">
+        <img src=<%= @user.photo %> class="img-fluid rounded-start" alt="...">
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title"><%= @user.name %></h5>
+          <p class="card-text"><small class="text-muted">Number of posts: <%= @user.posts_counter %></small></p>
+        </div>
+      </div>
     </div>
-    <div class=comments_container>
-        <% post.last_comments.each do |comment| %>
-          <p class="comment"> <%=User.find(comment.author_id).name%>:  <%=comment.text%> </p>
-        <%end%> 
-    </div>
-  <%end%>
-  <div class="pagination">
-    <button>Pagination</button>
-  <div>
+  </div>
+    <% @user.posts.each do |post| %>
+  <%= link_to(user_post_path(@user.id, post.id)) do %> 
+      <div class="card mb-3 mx-3" style="max-width: 540px;">
+        <div>Post #
+          <%= post.id %></div>
+          <%= post.text %>
+          <div> Comments: <% if post.comments_counter != nil %>
+          <%= post.comments_counter %>
+          <% else %>
+          0 
+          <% end %>
+          </div>
+          <div>
+          Likes: <% if post.likes_counter != nil %>
+          <%= post.likes_counter %>
+          <% else %>
+          0 
+          <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+    <div class="card mb-3 mx-3 flex-column" style="max-width: 540px;">
+    <div class="d-flex flex-column"> <% post.five_recent_comments.each do |comment| %> 
+      <%= comment.author.name %> : <%= comment.text %>
+      <% end %>
+      </div>
+      </div>
+  <% end %>
+  
+  <%= link_to 'See all users', users_path(@user), class: "btn btn-secondary mx-3 mb-3"%>

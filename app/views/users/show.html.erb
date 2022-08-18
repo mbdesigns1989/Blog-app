@@ -1,12 +1,7 @@
-  <header class="user_title">User's data</header>
-  <%=render "shared/user_info" , user: @user%>
-  <div class="bio">
-    <p>Bio</p>
-    <p><%= @user.bio%></p>
-  </div>
-  <% @user_posts.each_with_index do |post,index|%>
-    <%= render "shared/post_info", post: post, index: index%>
-  <% end %>
-  <div class="all_posts">
-    <button>See all posts</button>
-  </div>
+<%= render 'user_card' %>
+
+<%= render 'bio' %>
+
+<%= render 'comments_likes' %>
+
+<%= link_to 'See all posts', user_posts_path(@user), class: "btn btn-secondary mx-3 mb-3"%>

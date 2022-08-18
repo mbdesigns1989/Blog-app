@@ -2,13 +2,13 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
   before do
-    @user = User.new(name: 'Ronald', photo: 'https://unsplash.com/photos/F_-0BxGuVvo', bio: 'Full Stack Dev.',
+    @user = User.new(name: 'mb', photo: 'https://unsplash.com/photos/F_-0BxGuVvo', bio: 'Full Stack Dev.',
                      postscount: 0)
     @user.save
   end
 
   it 'should have a name' do
-    expect(@user.name).to eq('Ronald')
+    expect(@user.name).to eq('mb')
   end
 
   it 'should have a photo' do

@@ -1,28 +1,52 @@
 class PostsController < ApplicationController
-  def index
-    @user = User.find(params[:user_id])
-    @posts = @user.posts.order(created_at: :desc)
-  end
-
   def show
     @post = Post.find(params[:id])
-    @is_liked = @post.liked?(current_user)
-    @comments = @post.comments
+    @user = @post.author
+    @comments = @post.comments.includes(:author)
+  end
+
+  def index
+    @user = User.find(params[:user_id])
+    @posts = @user.posts.includes(:comments)
   end
 
   def new
     @post = Post.new
-    @user = current_user
   end
 
   def create
-    permitted = params.require(:post).permit(:title, :text)
-    @post = Post.new(author: current_user, text: permitted[:text], title: permitted[:title], commentscounter: 0,
-                     likescounter: 0)
-    if @post.valid? && @post.save
-      redirect_to user_post_path(current_user, @post)
-    else
-      render 'new'
+    @post = Post.new(new_post_params)
+    @post.author = User.first
+    respond_to do |format|
+      format.html do
+        if @post.save
+          flash[:notice] = 'Post was created successfully.'
+          redirect_to user_post_path(User.first.id, @post.id)
+          # redirect_to @posts
+        else
+          render 'new', status: :unprocessable_entity
+        end
+      end
     end
+  end
+
+  def edit
+    @post = Post.find(params[:id])
+  end
+
+  def update
+    @post = Post.find(params[:id])
+    @post.update(params.require(:post).permit(:title, :text))
+  end
+
+  def destroy
+    @post = Post.find(params[:id])
+    @post.destroy
+  end
+
+  private
+
+  def new_post_params
+    params.require(:post).permit(:title, :text)
   end
 end

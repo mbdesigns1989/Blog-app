@@ -1,37 +1,35 @@
 require 'rails_helper'
 
-RSpec.describe 'Users routes', type: :request do
-  context 'GET /users' do
-    it 'returns a 200 response' do
-      get '/users'
-      expect(response).to have_http_status(200)
-    end
+RSpec.describe 'Users', type: :request do
+  it 'redirects to the Users page and checks the correct placeholder text and status' do
+    get '/users'
 
-    it 'renders the index view' do
-      get '/users'
-      expect(response).to render_template(:index)
-    end
+    expect(response).to render_template(:index)
 
-    it 'renders a html containing a <h1>Here is a list of users.</h1> tag' do
-      get '/users'
-      expect(response.body).to include('<h1>Here is a list of users.</h1>')
-    end
+    expect(response.body).to include('Here is a list of users')
+
+    expect(response).to have_http_status(200)
   end
 
-  context 'GET /users/:id' do
-    it 'returns a 200 response' do
-      get '/users/1'
-      expect(response).to have_http_status(200)
-    end
+  it 'does not render a different template' do
+    get '/users'
 
-    it 'renders the show view' do
-      get '/users/1'
-      expect(response).to render_template(:show)
-    end
+    expect(response).to_not render_template(:show)
+  end
 
-    it 'renders a html containing a <h1>Here are details of a given user</h1> tag' do
-      get '/users/1'
-      expect(response.body).to include('<h1>Here are details of a given user</h1>')
-    end
+  it 'redirects to the User page and checks the correct placeholder text and status' do
+    get '/users/1'
+
+    expect(response).to render_template(:show)
+
+    expect(response.body).to include('Here is a user')
+
+    expect(response).to have_http_status(200)
+  end
+
+  it 'does not render a different template' do
+    get '/users/1'
+
+    expect(response).to_not render_template(:index)
   end
 end

@@ -1,12 +1,17 @@
-<h1 class="text-xl text-right text-cyan-700 font-bold">Users</h1>
- <%= link_to 'New Post', new_post_path, class: "border border-zinc-300 p-2 bg-cyan-700 text-zinc-100 font-bold rounded-md" %>
 <% @users.each do |user| %>
-  <div class="flex my-3 rounded-md border border-zinc-300 bg-white overflow-y-hidden h-20">
-    <img src="<%= user.photo %>" class="w-1/5 rounded-l-md h-fit"/>
-    <div class="w-4/5 px-2 pt-4 flex flex-col">
-      <h2 class="text-lg font-bold text-sky-600"><%= link_to user.name, user %></h2>
-      <p class="text-sm text-right w-full text-emerald-500/60 font-bold">Number of Posts:
-        <%= user.postscount %></p>
+<div class="card mb-3" style="max-width: 540px;">
+<%= link_to(user) do %>
+  <div class="row g-0">
+    <div class="col-md-4">
+      <img src=<%= user.photo %> class="img-fluid rounded-start" alt="...">
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title"><%= user.name %></h5>
+        <p class="card-text"><small class="text-muted">Number of posts: <%= user.posts_counter %></small></p>
+      </div>
     </div>
   </div>
+  <% end %>
+</div>
 <% end %>

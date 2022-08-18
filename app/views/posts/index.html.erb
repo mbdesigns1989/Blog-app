@@ -1,30 +1,44 @@
-<div class="flex my-3 rounded-md border border-zinc-300 bg-white">
-  <img src="<%= @user.photo %>" class="w-1/5 rounded-l-md"/>
-  <div class="w-4/5 px-2 pt-4 flex flex-col">
-    <h2 class="text-2xl font-bold text-sky-600"><%= link_to @user.name, @user %></h2>
-    <p class="text-sm text-right w-full font-bold text-emerald-500/60">Number of Posts:
-      <%= @user.postscount %></p>
+  <div class="card mb-3" style="max-width: 540px;">
+    <div class="row g-0">
+      <div class="col-md-4">
+        <img src=<%= @user.photo %> class="img-fluid rounded-start" alt="...">
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title"><%= @user.name %></h5>
+          <p class="card-text"><small class="text-muted">Number of posts: <%= @user.posts_counter %></small></p>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
-<% @posts.each do |post| %>
-  <div class="rounded-md border border-zinc-300 p-2 mb-4 bg-white/60">
-    <h2 class="font-semibold text-md text-cyan-900/80 underline underline-offset-2"><%= link_to post.title, [@user, post] %></h2>
-    <p class="text-cyan-900/80 text-sm truncate my-2"><%= post.text %></p>
-    <p class="text-right text-sm font-bold text-emerald-500/60">Comments:
-      <%= post.commentscounter %>
-      Likes:
-      <%= post.likescounter %></p>
-    <% unless post.commentscounter == 0 %>
-      <hr>
-      <h4 class="font-semibold text-cyan-700 mt-4">Most recent comments:</h4>
-      <ul class="my-3">
-        <% post.comments.take(5).each do |comment| %>
-          <li class="odd:text-cyan-800 even:text-cyan-600 text-sm my-2">
-            <span class="font-semibold"><%= comment.author.name %></span> says: <%= comment.text %>
-          </li>
-        <% end %>
-      </ul>
+    <% @user.posts.each do |post| %>
+  <%= link_to(user_post_path(@user.id, post.id)) do %> 
+      <div class="card mb-3 mx-3" style="max-width: 540px;">
+        <div>Post #
+          <%= post.id %></div>
+          <%= post.text %>
+          <div> Comments: <% if post.comments_counter != nil %>
+          <%= post.comments_counter %>
+          <% else %>
+          0 
+          <% end %>
+          </div>
+          <div>
+          Likes: <% if post.likes_counter != nil %>
+          <%= post.likes_counter %>
+          <% else %>
+          0 
+          <% end %>
+          </div>
+        </div>
+      </div>
     <% end %>
-  </div>
-<% end %>
-<a href="#" class="border border-zinc-300 p-2 bg-cyan-700 text-zinc-100 font-bold rounded-md">Pagination</a>
+    <div class="card mb-3 mx-3 flex-column" style="max-width: 540px;">
+    <div class="d-flex flex-column"> <% post.five_recent_comments.each do |comment| %> 
+      <%= comment.author.name %> : <%= comment.text %>
+      <% end %>
+      </div>
+      </div>
+  <% end %>
+  
+  <%= link_to 'See all users', users_path(@user), class: "btn btn-secondary mx-3 mb-3"%>

@@ -1,0 +1,14 @@
+<div class="post_card">
+  <h4 class="post_card__title"><%= post.title %></h4>
+  <p class="post_card__text">
+    <% if text_long?(post.text) %>
+      <%= trimm_text(post.text) %>
+    <% else %>
+      <%= post.text %>
+    <% end %>
+  </p>
+  <span class="post_card__counters">
+    <%= "Comments: #{post.commentscounter}, Likes: #{post.likescounter}" %>
+  </span>
+</div>
+

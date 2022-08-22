@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  subject { User.new(name: 'Nino', photo: 'photo', bio: 'She lives in Georgia', posts_counter: 3) }
+  subject { User.new(name: 'MB', photo: 'photo', bio: 'He lives in Canada', posts_counter: 3) }
 
   before { subject.save }
 

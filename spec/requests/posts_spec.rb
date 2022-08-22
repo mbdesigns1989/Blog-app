@@ -1,35 +1,31 @@
 require 'rails_helper'
 
-RSpec.describe 'PostsController', type: :request do
-  let(:author) { create(:author) }
+RSpec.describe 'Posts', type: :request do
+  describe 'GET /index' do
+    before(:each) { get user_posts_path user_id: 2 }
 
-  describe 'GET /users/:id/posts' do
-    before do
-      get user_posts_path(user_id: author.id)
+    it 'returns http 200 success' do
+      expect(response).to have_http_status(200)
     end
-
-    it 'should return an HTTP status 200 (ok)' do
-      expect(response).to have_http_status(:ok)
-    end
-
     it 'should render the correct template' do
       expect(response).to render_template(:index)
     end
+    it 'should render the correct text in the template' do
+      expect(response.body).to include('show the posts of a user')
+    end
   end
 
-  describe 'GET /users/:id/posts/:id' do
-    let(:post) { create(:post, author:) }
+  describe 'GET /show' do
+    before(:each) { get user_post_path user_id: 32, id: 54 }
 
-    before do
-      get user_post_path(user_id: author.id, id: post.id)
+    it 'should return correct response' do
+      expect(response).to have_http_status(200)
     end
-
-    it 'should return an HTTP status 200 (ok)' do
-      expect(response).to have_http_status(:ok)
-    end
-
     it 'should render the correct template' do
       expect(response).to render_template(:show)
+    end
+    it 'should have the text Posts' do
+      expect(response.body).to include('show posts details')
     end
   end
 end

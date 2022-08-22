@@ -1,11 +1,16 @@
-<section class="users">
-  <ul class="users__list">
-    <% @users.each do |user| %>
-    <li>
-      <%= link_to(user_path(id: user.id)) do %>
-        <%= render "shared/user_card", user: user %>
-      <% end %>
-    </li>
-    <% end %>
-  </ul>
-</section>
+<div id="users">
+    <table class="table table-striped table-bordered table-hover">
+      <thead class="table-dark">
+        <tr>
+          <th scope="col">Photo</th>
+          <th scope="col">Name</th>
+          <th scope="col">Posts</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @users.each do |user| %>
+          <%= render user %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>

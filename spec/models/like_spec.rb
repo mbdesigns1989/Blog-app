@@ -1,41 +1,32 @@
 require 'rails_helper'
 
 RSpec.describe Like, type: :model do
-  let(:author) { build(:user) }
-  let(:post) { build(:post, author:) }
-  let(:like) { Like.new(author:, post:) }
-
-  before do
-    author.save
-    post.save
-    like.save
+  subject do
+    user = User.create(name: 'Tom', photo: 'https://unsplash.com/photos/F_-0BxGuVvo', bio: 'Teacher from Mexico.',
+                       posts_counter: 0)
+    post = Post.create(title: 'Hello', text: 'This is my first post', comments_counter: 0, likes_counter: 0,
+                       author_id: user.id)
+    Like.new(author_id: user.id, post_id: post.id)
   end
 
-  it 'should have an author' do
-    expect(like).to have_attributes(author:)
-  end
-  it 'should be associated with a post' do
-    expect(like).to have_attributes(post:)
+  before { subject.save }
+
+  it 'should save the data' do
+    expect(subject).to be_valid
   end
 
-  describe '#update_likes_counter' do
-    it "should add 1 to post's likes counter" do
-      # When a Like gets created this counter increments, so we created one earlier
-      # and expect the counter to be 1 at this point.
-      expect(post.likescounter).to eq(1)
-      like.update_likes_counter
-      expect(post.likescounter).to eq(2)
-    end
+  it 'name should be present' do
+    subject.author_id = nil
+    expect(subject).to_not be_valid
   end
 
-  describe 'validations' do
-    it 'should not be valid if author is not provided' do
-      like.author = nil
-      expect(like).not_to be_valid
-    end
-    it 'should not be valid if post is not provided' do
-      like.post = nil
-      expect(like).not_to be_valid
-    end
+  it 'post_id should be a string' do
+    subject.post_id = '11123'
+    expect(subject).to_not be_valid
+  end
+
+  it 'author_id should be a string' do
+    subject.author_id = '1123'
+    expect(subject).to_not be_valid
   end
 end

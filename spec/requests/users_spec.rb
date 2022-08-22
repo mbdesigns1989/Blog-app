@@ -1,33 +1,36 @@
 require 'rails_helper'
 
-RSpec.describe 'UsersController', type: :request do
-  let(:user) { create(:user, name: 'Mb') }
-
-  describe 'GET /users' do
-    before do
+RSpec.describe 'Users', type: :request do
+  describe 'GET /index' do
+    it 'should returns http 200 success' do
       get users_path
+      expect(response).to have_http_status(200)
     end
 
-    it 'should return an HTTP status 200 (ok)' do
-      expect(response).to have_http_status(:ok)
-    end
-
-    it 'should render the index template' do
+    it 'should render the correct template' do
+      get users_path
       expect(response).to render_template(:index)
+    end
+
+    it 'should render the correct text in the template' do
+      get users_path
+      expect(response.body).to include('display users list')
     end
   end
 
-  describe 'GET /users/:id' do
-    before do
-      get user_path(id: user.id)
+  describe 'GET /show' do
+    before(:each) { get user_path(32) }
+
+    it 'should return correct response' do
+      expect(response).to have_http_status(200)
     end
 
-    it 'should return an HTTP status 200 (ok)' do
-      expect(response).to have_http_status(:ok)
+    it 'should render the show template ' do
+      expect(response).to render_template(:show)
     end
 
-    it 'should render the show template' do
-      expect(response.body).to render_template(:show)
+    it 'should have the text Posts' do
+      expect(response.body).to include('Show the user details by ID')
     end
   end
 end

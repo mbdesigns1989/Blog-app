@@ -1,50 +1,37 @@
 require 'rails_helper'
 
 RSpec.describe Comment, type: :model do
-  let(:author) { build(:user) }
-  let(:post) { build(:post, author:) }
-  let(:comment) { Comment.new(author:, post:, text: 'text') }
-
-  before do
-    author.save
-    post.save
-    comment.save
+  subject do
+    user = User.create(name: 'Tom', photo: 'https://unsplash.com/photos/F_-0BxGuVvo', bio: 'Teacher from Mexico.',
+                       posts_counter: 0)
+    post = Post.create(title: 'Hello', text: 'This is my first post', comments_counter: 0, likes_counter: 0,
+                       author_id: user.id)
+    Comment.new(post_id: post.id, author_id: user.id, text: 'Good improvements')
   end
 
-  it 'should have an author' do
-    expect(comment).to have_attributes(author:)
+  before { subject.save }
+
+  it 'should save the data' do
+    expect(subject).to be_valid
   end
 
-  it 'should have be associated with a post' do
-    expect(comment).to have_attributes(post:)
-  end
-  it 'should have text' do
-    expect(comment).to have_attributes(text: 'text')
+  it 'author_id should be present' do
+    subject.author_id = nil
+    expect(subject).to_not be_valid
   end
 
-  describe '#update_comments_counter' do
-    it "should add 1 to post's commentscounter" do
-      # When a Like gets created this counter increments, so we created one earlier
-      # and expect the counter to be 1 at this point.
-      expect(post.commentscounter).to eq(1)
-      comment.update_comments_counter
-      expect(post.commentscounter).to eq(2)
-    end
+  it 'post_id should be present' do
+    subject.post_id = nil
+    expect(subject).to_not be_valid
   end
 
-  describe 'Validations' do
-    it 'should not be valid if author is not provided' do
-      comment.author = nil
-      expect(comment).not_to be_valid
-    end
+  it 'post_id should be a string' do
+    subject.post_id = '11123'
+    expect(subject).to_not be_valid
+  end
 
-    it 'should not be valid if post is not provided' do
-      comment.post = nil
-      expect(comment).not_to be_valid
-    end
-    it 'should not be valid if text is not provided' do
-      comment.text = nil
-      expect(comment).not_to be_valid
-    end
+  it 'author_id should be a string' do
+    subject.author_id = '1123'
+    expect(subject).to_not be_valid
   end
 end

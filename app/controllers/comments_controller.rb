@@ -1,52 +1,21 @@
 class CommentsController < ApplicationController
-  before_action :current_user, only: [:create]
-
-  def show
-    @comment = Comment.find(params[:id])
-  end
-
-  def index
-    @comments = Comment.all
-  end
-
-  def new
-    @comment = Comment.new
-  end
-
   def create
-    @comment = current_user.comments.new(comments_params)
-    @comment.author_id = current_user.id
-    @comment.post_id = params[:post_id]
-
-    respond_to do |format|
-      format.html do
-        if @comment.save
-          flash[:success] = 'Comment was created successfully!'
-          redirect_to user_post_path(current_user.id, Post.find(params[:post_id]))
-        else
-          render :new, status: :unprocessable_entity
-        end
-      end
+    @post = Post.find(params[:post_id])
+    new_comment = current_user.comments.new(
+      text: comment_params,
+      author_id: current_user.id,
+      post_id: @post.id
+    )
+    if new_comment.save
+      redirect_to user_posts_path(user_id: new_comment.post_id), notice: 'Success!'
+    else
+      render :new, alert: 'Error Occurred'
     end
-  end
-
-  def edit
-    @comment = Comment.find(params[:id])
-  end
-
-  def update
-    @comment = Comment.find(params[:id])
-    @comment.update(params.require(:comment).permit(:name, :photo, :bio))
-  end
-
-  def destroy
-    @comment = Comment.find(params[:id])
-    @comment.destroy
   end
 
   private
 
-  def comments_params
-    params.require(:comment).permit(:text)
+  def comment_params
+    params.require(:comment).permit(:text)[:text]
   end
 end

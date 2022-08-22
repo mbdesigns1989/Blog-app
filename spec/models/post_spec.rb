@@ -1,49 +1,23 @@
 require 'rails_helper'
 
 RSpec.describe Post, type: :model do
-  subject { Post.new(title: 'A post', text: 'Post text', comments_counter: 3, likes_counter: 1) }
+  subject do
+    user = User.create(name: 'Tom', photo: 'https://unsplash.com/photos/F_-0BxGuVvo', bio: 'Teacher from Mexico.',
+                       posts_counter: 0)
+    Post.new(title: 'Hello', text: 'This is my first post', comments_counter: 0, likes_counter: 0, author_id: user.id)
+  end
 
   before { subject.save }
-
-  describe 'Associations' do
-    it { should belong_to(:author).without_validating_presence }
-  end
-
-  it 'should not be valid, author should exist' do
-    expect(subject).to_not be_valid
-  end
-
-  it 'isn\'t valid with characters less than 3' do
-    subject.title = 'Be'
-    expect(subject).to_not be_valid
-  end
 
   it 'title should be present' do
     subject.title = nil
     expect(subject).to_not be_valid
   end
 
-  it 'the likes_counter to be an integer' do
-    expect(subject.likes_counter).to be_integer
-  end
-
-  it 'the comments_counter to be an integer' do
-    expect(subject.comments_counter).to be_integer
-  end
-
-  it 'the comments_counter to be equal or greater than zero' do
-    subject.comments_counter = nil
+  it 'tests if title more than 250chs to be invalid' do
+    subject.title = 'more than 250 more than 250 more than 250 more
+    than 250 more than 250 more than 250 more than 250 more than 250 more than 250 more than 250 more than 250 more
+    than 250 more than 250 more than 250 more than 250 more than 250 more than 250 more than 250 '
     expect(subject).to_not be_valid
-  end
-
-  it 'the comments_counter to be equal or greater than zero' do
-    subject.comments_counter = -1
-    expect(subject).to_not be_valid
-  end
-
-  describe 'Should test methods in post model' do
-    it 'returns the recent five comments' do
-      expect(subject.five_recent_comments).to eq(subject.comments.last(5))
-    end
   end
 end

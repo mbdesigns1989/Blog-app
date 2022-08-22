@@ -1,48 +1,26 @@
-<div class="card m-3" style="max-width: 540px;">
-
-    <div>Post # 
-     <%= @post.id %>
-     by <%= @post.author.name %>
-     <%= @post.text %></div>
-    Comments: <% if @post.comments_counter != nil %>
-    <%= @post.comments_counter %>
- <% else %>
- 0 
- <% end %>
-    Likes: <% if @post.likes_counter != nil %>
-     <%= @post.likes_counter %>
-  <% else %>
-  0 
-  <% end %>
+<div class="user_con">
+  <div class="user_data_post"> 
+    <h2><%= @post.title %> by <span><%= @post.author.name %></span></h2>
+    <p><%= @post.text %></p>
+    <%= form_with url: "/posts/#{@post.id}/likes", scope: :like do |form| %>
+      <%= form.submit "Like this post", class: "btn btn-danger"%>
+    <% end %>
+    <h3>Comment <%= @post.comments_counter%>,  <span>Likes <%= @post.likes_counter%></span></h3>
   </div>
+</div>
+<div>
+  <div class="card">
+    <div class="card-header">
+      <h4><% @post.recent_5_comments.each do |comment| %>
+        <h2><%= comment.author.name%>: <%= comment.text%></h2>
+      <%end%></h4>
+    </div>
+    <div class="card-body">
+      <p class="card-text"><%= render "creation_of_comments", comment: @post %></p>
+    </div>
+    <div>
+      <%= link_to "Back to Posts", user_posts_path, class:"btn btn-dark" %>
+    </div>
   </div>
-  <div class="card m-3" style="max-width: 540px;">
-
-  <div> <% @post.comments.each do |comment| %> 
-    <%= comment.author.name %> : <%= comment.text %>
-    <% end %>
-    </div>
-    </div>
-
-    <%= form_with url: "/posts/#{@post.id}/comments", scope: :comment, class: "col-3 shadow p-3 mb-3 mx-3 bg-info rounded", local: true do |f| %>
-      <div class="form-group row mt-3">
-        <%= f.label 'Write a comment', class: "col-form-label text-light" %>
-        <div class=""> 
-          <%= f.text_area :text, rows: 5, class: "form-control shadow rounded", placeholder: "Enter your text here" %>
-        </div>
-      </div>
-      <div class="form-group row justify-content-center">
-        <%= f.submit 'Comment', class: "btn btn-outline-light mt-3" %>
-      </div>
-    <% end %>
-
-    <%= form_with url: "/posts/#{@post.id}/likes", scope: :like, class: "col-3 shadow p-1 mb-3 mx-3 bg-info rounded", local: true do |f| %>
-      <div class="form-group row justify-content-center">
-        <%= f.submit 'Like', class: "btn btn-outline-light" %>
-      </div>
-    <% end %>
-
-<%= link_to 'Create new post', new_user_post_path, class: "btn btn-secondary mx-3 mb-3" %>
-
-<%= link_to 'See all posts', user_posts_path(@user), class: "btn btn-secondary mx-3 mb-3" %>
+</div>
 

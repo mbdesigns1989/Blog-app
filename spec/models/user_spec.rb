@@ -1,40 +1,21 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  subject { User.new(name: 'MB', photo: 'photo', bio: 'He lives in Canada', posts_counter: 3) }
+  subject { User.new(name: 'John', photo: 'https://unsplash.com/photos/F_-0BxGuVvo', bio: 'Random bio', posts_counter: 2) }
 
   before { subject.save }
 
-  it 'should be valid' do
+  it 'should save the data' do
     expect(subject).to be_valid
   end
 
-  it 'isn\'t valid without a name' do
+  it 'name should be present' do
     subject.name = nil
     expect(subject).to_not be_valid
   end
 
-  it 'the posts_counter to be 3' do
-    expect(subject.posts_counter).to be(3)
-  end
-
-  it 'the posts_counter to be an integer' do
-    expect(subject.posts_counter).to be_integer
-  end
-
-  it 'the posts_counter to be greater or equal to zero' do
-    subject.posts_counter = nil
+  it 'tests post counter to be less than 0' do
+    subject.posts_counter = - 5
     expect(subject).to_not be_valid
-  end
-
-  it 'the posts_counter to be greater or equal to zero' do
-    subject.posts_counter = -5
-    expect(subject).to_not be_valid
-  end
-
-  describe 'Should test methods in user model' do
-    it 'returns the recent three posts' do
-      expect(subject.three_recent_posts).to eq(subject.posts.last(3))
-    end
   end
 end

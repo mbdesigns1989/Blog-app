@@ -1,6 +1,6 @@
 class User < ApplicationRecord
   validates :name, presence: true
-  validates :postscounter, comparison: { greater_than_or_equal_to: 0 }
+  validates :postscounter, numericality: { only_integer: true }, comparison: { greater_than_or_equal_to: 0 }
 
   has_many :comments
   has_many :posts

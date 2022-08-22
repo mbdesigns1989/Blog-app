@@ -29,12 +29,3 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
-
-# Ignore testing status persistance
-/spec/examples.txt
-
-# Ignore node_modules folder
-node_modules/
-
-# Coverage
-coverage

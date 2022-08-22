@@ -1,52 +1,40 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  let(:user) { User.new(name: 'name', photo: 'photo', bio: 'bio') }
-  before { user.save }
+  subject { User.new(name: 'Nino', photo: 'photo', bio: 'She lives in Georgia', posts_counter: 3) }
 
-  it 'should have a name' do
-    expect(user).to have_attributes(name: 'name')
+  before { subject.save }
+
+  it 'should be valid' do
+    expect(subject).to be_valid
   end
 
-  it 'should have a photo' do
-    expect(user).to have_attributes(photo: 'photo')
+  it 'isn\'t valid without a name' do
+    subject.name = nil
+    expect(subject).to_not be_valid
   end
 
-  it 'should have a bio' do
-    expect(user).to have_attributes(bio: 'bio')
+  it 'the posts_counter to be 3' do
+    expect(subject.posts_counter).to be(3)
   end
 
-  describe '#most_recent_posts' do
-    before do
-      (1..6).each { create(:post, author: user) }
-    end
-
-    it 'should return an array of posts' do
-      posts = user.most_recent_posts.to_a
-      expect(posts).to include(an_instance_of(Post))
-    end
-
-    it 'should return an array with at maximum, three elements' do
-      posts = user.most_recent_posts.to_a
-      expect(posts.size).to be <= 3
-    end
+  it 'the posts_counter to be an integer' do
+    expect(subject.posts_counter).to be_integer
   end
 
-  describe 'Validations' do
-    it 'should not be valid if a name is not provided' do
-      user.name = nil
-      expect(user).not_to be_valid
-    end
+  it 'the posts_counter to be greater or equal to zero' do
+    subject.posts_counter = nil
+    expect(subject).to_not be_valid
+  end
 
-    describe '@postscounter' do
-      it 'should be an integer' do
-        expect(user.postscounter).to be_an(Integer)
-      end
+  it 'the posts_counter to be greater or equal to zero' do
+    subject.posts_counter = -5
+    expect(subject).to_not be_valid
+  end
 
-      it 'should not be valid if is less than 0' do
-        user.postscounter = -1
-        expect(user).not_to be_valid
-      end
+  describe 'Should test methods in user model' do
+    it 'returns the recent three posts' do
+      expect(subject.three_recent_posts).to eq(subject.posts.last(3))
     end
   end
 end

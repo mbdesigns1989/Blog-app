@@ -1,35 +1,35 @@
 require 'rails_helper'
 
-RSpec.describe 'PostsController', type: :request do
-  let(:author) { create(:author) }
+RSpec.describe 'Posts', type: :request do
+  it 'redirects to the Posts page and checks the correct placeholder text and status' do
+    get '/users/1/posts'
 
-  describe 'GET /users/:id/posts' do
-    before do
-      get user_posts_path(user_id: author.id)
-    end
+    expect(response).to render_template(:index)
 
-    it 'should return an HTTP status 200 (ok)' do
-      expect(response).to have_http_status(:ok)
-    end
+    expect(response.body).to include('Here is a list of posts for a given user')
 
-    it 'should render the correct template' do
-      expect(response).to render_template(:index)
-    end
+    expect(response).to have_http_status(200)
   end
 
-  describe 'GET /users/:id/posts/:id' do
-    let(:post) { create(:post, author:) }
+  it 'does not render a different template' do
+    get '/users/1/posts'
 
-    before do
-      get user_post_path(user_id: author.id, id: post.id)
-    end
+    expect(response).to_not render_template(:show)
+  end
 
-    it 'should return an HTTP status 200 (ok)' do
-      expect(response).to have_http_status(:ok)
-    end
+  it 'redirects to the Post page and checks the correct placeholder text and status' do
+    get '/users/1/posts/1'
 
-    it 'should render the correct template' do
-      expect(response).to render_template(:show)
-    end
+    expect(response).to render_template(:show)
+
+    expect(response.body).to include('Here is a post')
+
+    expect(response).to have_http_status(200)
+  end
+
+  it 'does not render a different template' do
+    get '/users/1/posts/1'
+
+    expect(response).to_not render_template(:index)
   end
 end

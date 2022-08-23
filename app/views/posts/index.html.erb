@@ -1,0 +1,20 @@
+<div class="user">
+  <div class="user_data">
+    <h3><%= @user.name %></h3>
+    <p><%= @user.photo %></p>
+    <p>Number of posts: <%= @user.posts_counter %></p>
+  </div>
+</div>
+
+<% @posts.each do |post| %>
+  <%= render post %>
+<%end%>
+
+<%= link_to 'Create New Post', new_user_post_path, class:"btn btn-secondary" %>
+<br />
+<br />
+<div class="button-wrapper">
+  <button class="btn btn-dark">
+    Pagination
+  </button>
+</div>

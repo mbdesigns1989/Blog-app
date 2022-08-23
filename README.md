@@ -6,14 +6,12 @@ This is app is a classic example of a blog website. The goal is to create a full
 - Rubocop
 - Postgresql
 
-
 ## Getting Started
 Install the following :
 - Ruby
 - Ruby on Rails  
 - PostgreSQL
 - Rubocop
-
 
 ### Setup
  - git clone https://github.com/mbdesigns1989/Blog-app

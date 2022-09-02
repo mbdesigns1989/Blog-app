@@ -1,20 +1,13 @@
-<div class="user">
-  <div class="user_data">
-    <h3><%= @user.name %></h3>
-    <p><%= @user.photo %></p>
-    <p>Number of posts: <%= @user.posts_counter %></p>
-  </div>
-</div>
+<%= render partial:'partials/userpartial', locals: {user: @user} %>
 
-<% @posts.each do |post| %>
-  <%= render post %>
-<%end%>
+<% @user_posts.each do |post|%>
+<%= render partial:'partials/postpartial', locals: {post: post} %>
 
-<%= link_to 'Create New Post', new_user_post_path, class:"btn btn-secondary" %>
-<br />
-<br />
-<div class="button-wrapper">
-  <button class="btn btn-dark">
-    Pagination
-  </button>
-</div>
+<ul class="comments">
+      <% post.recent_comments.each do |comment| %>
+        <li><%= comment.author.name %>: <%= comment.text %>
+      <% end %>
+      </ul>
+<% end %>
+
+<%= link_to "Add new post", new_user_post_path(@user), class: " see-all-btn" %>

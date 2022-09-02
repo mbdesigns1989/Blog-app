@@ -6,12 +6,14 @@ This is app is a classic example of a blog website. The goal is to create a full
 - Rubocop
 - Postgresql
 
+
 ## Getting Started
 Install the following :
 - Ruby
 - Ruby on Rails  
 - PostgreSQL
 - Rubocop
+
 
 ### Setup
  - git clone https://github.com/mbdesigns1989/Blog-app
@@ -42,3 +44,12 @@ Contributions, issues, and feature requests are welcome!
 Feel free to check the [issues page](https://github.com/mbdesigns1989/Blog-app/issues).
 ## Show your support
 Give a ⭐️ if you like this project!
+
+## Acknowledgement
+
+👤 **Mandela Tumukunde**
+
+- GitHub: [@mandelatuks](https://github.com/mandelatuks)
+- Twitter: [@MandelaTm1](https://twitter.com/MandelaTm1)
+- LinkedIn: [@Mandela Tumukunde](https://www.linkedin.com/in/mandela-tumukunde-794755194/)
+

@@ -1,5 +1,5 @@
 # Blog-App
-This is app is a classic example of a blog website. The goal is to create a fully functional website that will show the list of posts and empower readers to interact with them by adding comments and liking posts.
+This is app is a classic example of a blog website. The goal is to create a fully functional website that will show the list of posts and readers will  interact with them by adding comments and liking posts.
 ## Built With
 - Ruby on Rails
 - Ruby
@@ -12,7 +12,6 @@ Install the following :
 - Ruby on Rails  
 - PostgreSQL
 - Rubocop
-
 
 ### Setup
  - git clone https://github.com/mbdesigns1989/Blog-app

@@ -1,45 +1,44 @@
 require 'rails_helper'
 
-RSpec.describe 'Test the User show page' do
-  before :each do
-    @user = User.create(name: 'Jake', photo: 'https://unsplash.com/photos/F_-0BxGuVvo', bio: 'Teacher from Algeria.')
+RSpec.describe 'user_show', type: :feature do
+  user = User.first
 
-    # add five posts for the user
-    5.times do |i|
-      Post.create!(author: @user, title: "Post #{i}", text: 'This is my new post')
-    end
-    visit user_path(@user.id)
+  before(:each) do
+    visit(user_path(User.first.id))
   end
 
-  it 'displays users profile picture' do
-    expect(page).to have_content('https://unsplash.com/photos/F_-0BxGuVvo')
+  it 'shows the user\'s profile picture' do
+    expect(page.html).to include('avatal')
   end
 
-  it 'displays the username' do
-    expect(page).to have_content(@user.name)
+  it 'can see the user\'s username' do
+    expect(page).to have_content(user.name)
   end
 
-  it 'show number of posts written by the user' do
-    expect(page).to have_content("Number of Posts: #{@user.posts_counter}")
+  it 'can see the user\'s number of posts' do
+    expect(page).to have_content("Number of Posts: #{user.posts_counter}")
   end
 
-  it 'the users bio is visible' do
-    expect(page).to have_content(@user.bio)
+  it 'can see the user\'s bio' do
+    expect(page).to have_content(user.bio)
   end
 
-  it 'only the first three posts is visible' do
-    expect(page).to have_content('Post 4')
-    expect(page).to have_content('Post 3')
-    expect(page).to have_content('Post 2')
-    expect(page).to_not have_content('Post 1')
+  it 'can see the user\'s first 3 posts' do
+    expect(page).to have_selector('.user-info', count: 1)
   end
 
-  it 'button to view all posts is visible' do
-    expect(page).to have_content('See all posts')
+  it 'can see a button that lets the user see all posts' do
+    expect(page).to have_link('See all posts')
   end
 
-  it 'go to the users post#index page when a user click on view all post' do
-    click_link 'See all posts'
-    expect(page).to have_current_path user_posts_path(@user)
+  it 'redirects to the post\'s page when a post is clicked' do
+    post = user.posts.first
+    click_link(post.title)
+    expect(page.current_path).to eql(user_post_path(user_id: user.id, id: post.id))
+  end
+
+  it 'redirects to the user\'s posts page when the button See all posts is clicked' do
+    click_link('See all posts')
+    expect(page.current_path).to eql(user_posts_path(user_id: user.id).to_s)
   end
 end

@@ -1,23 +1,30 @@
 require 'rails_helper'
 
 RSpec.describe Post, type: :model do
+  user = User.create(name: 'Tom', bio: 'teacher in uganda')
+  user.save
+
   subject do
-    user = User.create(name: 'Tom', photo: 'https://unsplash.com/photos/F_-0BxGuVvo', bio: 'Teacher from Mexico.',
-                       posts_counter: 0)
-    Post.new(title: 'Hello', text: 'This is my first post', comments_counter: 0, likes_counter: 0, author_id: user.id)
+    Post.new(title: 'My new post', text: 'Hello', author: user)
   end
 
   before { subject.save }
 
-  it 'title should be present' do
+  it 'it should check if the title is available' do
     subject.title = nil
     expect(subject).to_not be_valid
   end
 
-  it 'tests if title more than 250chs to be invalid' do
-    subject.title = 'more than 250 more than 250 more than 250 more
-    than 250 more than 250 more than 250 more than 250 more than 250 more than 250 more than 250 more than 250 more
-    than 250 more than 250 more than 250 more than 250 more than 250 more than 250 more than 250 '
+  it 'Post counter must be greater or equal to zero' do
+    subject.likes_counter = -1
+    expect(subject).to_not be_valid
+  end
+  it 'loads only the most recent 5 comments' do
+    expect(subject.recent_comments).to eq(subject.comments.last(5))
+  end
+
+  it 'should have 250 characters' do
+    subject.title = 'm' * 300
     expect(subject).to_not be_valid
   end
 end

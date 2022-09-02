@@ -1,21 +1,21 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  subject { User.new(name: 'John', photo: 'https://unsplash.com/photos/F_-0BxGuVvo', bio: 'Random bio', posts_counter: 2) }
-
-  before { subject.save }
-
-  it 'should save the data' do
-    expect(subject).to be_valid
+  subject do
+    User.new(name: 'Tom', photo: 'https://unsplash.com/photos/F_-0BxGuVvo', bio: 'Teacher from Mexico.')
   end
 
-  it 'name should be present' do
+  before :each do
+    subject.save
+  end
+
+  it 'Name should be present' do
     subject.name = nil
     expect(subject).to_not be_valid
   end
 
-  it 'tests post counter to be less than 0' do
-    subject.posts_counter = - 5
+  it 'Post counter must be greater or equal to zero' do
+    subject.posts_counter = -1
     expect(subject).to_not be_valid
   end
 end
